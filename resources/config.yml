@@ -1,0 +1,4 @@
+## CustomKB Configuration
+# List of world that will not affected by this configuration even you configured it
+disabled-worlds:
+  - "example"

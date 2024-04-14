@@ -1,0 +1,12 @@
+name: CustomKB
+api: 5.0.0
+version: 1.0.0
+main: nicholass003\customkb\CustomKB
+author: nicholass003
+commands:
+  customkb:
+    description: CustomKB Command
+    permission: customkb.command
+permissions:
+  customkb.command:
+    default: op
