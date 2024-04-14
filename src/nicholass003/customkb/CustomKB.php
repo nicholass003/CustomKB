@@ -93,7 +93,8 @@ class CustomKB extends PluginBase implements Listener{
                                 if(isset($args[2])){
                                     $type = match(strtolower($args[2])){
                                         "attackdelay" => self::TYPE_ATTACKDELAY,
-                                        "knockback" => self::TYPE_KNOCKBACK
+                                        "knockback" => self::TYPE_KNOCKBACK,
+                                        default => throw new \InvalidArgumentException("Invalid type value")
                                     };
                                     $configure = $this->configure($worldName, $type, (float) $args[2]);
                                     $this->sendMessage($sender, $this->getTarget($type), (float) $args[2], $configure);
@@ -218,7 +219,8 @@ class CustomKB extends PluginBase implements Listener{
     private function getTarget(int $type) : string{
         return match($type){
             self::TYPE_ATTACKDELAY => "AttackDelay",
-            self::TYPE_KNOCKBACK => "KnockBack"
+            self::TYPE_KNOCKBACK => "KnockBack",
+            default => throw new \InvalidArgumentException("Unknown type target type: " . $type)
         };
     }
 
