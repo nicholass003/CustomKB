@@ -98,11 +98,11 @@ class CustomKB extends PluginBase implements Listener{
 						case "set":
 							if(isset($args[1])){
 								if(isset($args[2])){
-									$type = match(strtolower($args[2])){
-										"attackdelay" => self::TYPE_ATTACKDELAY,
-										"knockback" => self::TYPE_KNOCKBACK,
-										default => throw new \InvalidArgumentException("Invalid typevalue")
-									};
+									$type = $this->getType($args[1]);
+									if($type === false){
+										$sender->sendMessage(TextFormat::RED . "Usage: /customkb set <attackdelay:knockback> <value>");
+										return true;
+									}
 									$configure = $this->configure($worldName, $type, (float) $args[2]);
 									$this->sendMessage($sender, $this->getTarget($type), (float) $args[2], $configure);
 								}else{
@@ -221,6 +221,21 @@ class CustomKB extends PluginBase implements Listener{
 		}else{
 			$player->sendMessage("§cFailed configure {$target} with value {$value} !");
 		}
+	}
+
+	private function getType(string $target) : false|int{
+		return match(strtolower($target)){
+			"attackdelay" => self::TYPE_ATTACKDELAY,
+			"attack" => self::TYPE_ATTACKDELAY,
+			"attackcooldown" => self::TYPE_ATTACKDELAY,
+			"attackcd" => self::TYPE_ATTACKDELAY,
+			"attackduration" => self::TYPE_ATTACKDELAY,
+			"ad" => self::TYPE_ATTACKDELAY,
+			"knockback" => self::TYPE_KNOCKBACK,
+			"knock" => self::TYPE_KNOCKBACK,
+			"kb" => self::TYPE_KNOCKBACK,
+			default => false
+		};
 	}
 
 	private function getTarget(int $type) : string{
